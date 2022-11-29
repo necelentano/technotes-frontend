@@ -16,8 +16,6 @@ const Note = ({ noteId }) => {
       month: "long",
     });
 
-    console.log({ created });
-
     const updated = new Date(note.updatedAt).toLocaleString("en-US", {
       day: "numeric",
       month: "long",
