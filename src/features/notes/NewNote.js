@@ -3,11 +3,13 @@ import { selectAllUsers } from "../users/usersApiSlice";
 import NewNoteForm from "./NewNoteForm";
 
 const NewNote = () => {
-  const users = useSelector(selectAllUsers);
+  const users = useSelector(selectAllUsers); // selectAll memoized query always returns an array. If there are no users it will return an empty array
 
-  const content = users ? <NewNoteForm users={users} /> : <p>Loading...</p>;
+  // check if array is empty
+  if (!users?.length) return <p>Not Currently Available</p>;
+
+  const content = <NewNoteForm users={users} />;
 
   return content;
 };
-
 export default NewNote;
