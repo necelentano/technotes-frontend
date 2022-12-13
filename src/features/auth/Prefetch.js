@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 
 const Prefetch = () => {
   useEffect(() => {
-    console.log("subscribing");
+    //console.log("subscribing");
     // manual subscription to notes and users ===> notesApiSlice.endpoints.getNotes.initiate()
     // we use the slice, then we call the endpoints, than we call the query that we want(getNotes). initiate method creates manual subscription
 
@@ -15,16 +15,26 @@ const Prefetch = () => {
     // We wrap protected pages with this Prefetch component
     // It also helps when we refresh the protected page and we still want to have state, including pre-filling our forms
 
-    const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate());
-    const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate());
+    // const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate());
+    // const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate());
+
+    // THE BETTER WAT TO PREFETCH
+    store.dispatch(
+      notesApiSlice.util.prefetch("getNotes", "notesList", { force: true })
+    );
+    store.dispatch(
+      usersApiSlice.util.prefetch("getUsers", "usersList", { force: true })
+    );
 
     // in cleanup we use unsubscribe method
     // if we go to the unprotected pages it will unsubscribe
-    return () => {
-      console.log("unsubscribing");
-      notes.unsubscribe();
-      users.unsubscribe();
-    };
+
+    // don't need unsubscribe when we prefetch like above
+    // return () => {
+    //   console.log("unsubscribing");
+    //   notes.unsubscribe();
+    //   users.unsubscribe();
+    // };
   }, []);
 
   return <Outlet />;
