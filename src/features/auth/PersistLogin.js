@@ -4,6 +4,7 @@ import { useRefreshMutation } from "./authApiSlice";
 import usePersist from "../../hooks/usePersist";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "./authSlice";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const PersistLogin = () => {
   const [persist] = usePersist();
@@ -59,7 +60,7 @@ const PersistLogin = () => {
   } else if (isLoading) {
     //persist: yes, token: no. If we reload the page and the state with token is wiped. (403)
     console.log("loading");
-    content = <p>Loading...</p>;
+    content = <PulseLoader color={"#FFF"} />;
   } else if (isError) {
     //persist: yes, token: no. When our refreshToken expires and we get 403
     console.log("error");
